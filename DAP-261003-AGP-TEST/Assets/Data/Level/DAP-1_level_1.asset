@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ce9ca6cef21ceb4d9ea109ab3bba729, type: 3}
   m_Name: DAP-1_level_1
   m_EditorClassIdentifier: 
-  levelName: Level 1
-  layout: {x: 2, y: 3}
-  timeLimit: 20
-  memorizeTime: 3
-  maxMistake: 5
+  _levelId: L1
+  _levelName: Level 1
+  _gridLayout: {x: 2, y: 3}
+  _timeLimit: 20
+  _memorizeTime: 3
+  _maxMistake: 5
