@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace DAP.Runtime.Data
 {
-    [CreateAssetMenu(fileName = "CardData", menuName = "DAP/DATA/New Card Data")]
+    [CreateAssetMenu(fileName = "CardData", menuName = "DAP/Data/New Card Data")]
     public class CardDataSO : ScriptableObject
     {
+        [SerializeField] private string _cardId;
         [SerializeField] private Sprite _cardBack;
         [SerializeField] private List<Sprite> _listCardFaces;
 
