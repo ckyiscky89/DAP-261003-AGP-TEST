@@ -10,7 +10,7 @@ namespace DAP.Runtime.Data
 
         [Header("Grid Settings")]
         [Tooltip("X = Number of Columns, Y = Number of Rows")]
-        [SerializeField] private Vector2 _gridLayout = new(2,2);
+        [SerializeField] private Vector2Int _gridLayout = new(2,2);
 
         [Header("Level Rules")]
         [SerializeField] private float _timeLimit = 30;
@@ -18,7 +18,7 @@ namespace DAP.Runtime.Data
         [SerializeField] private float _maxMistake = 5;
 
         public string GetLevelName() => _levelName;
-        public Vector2 GetGridLayout() => _gridLayout;
+        public Vector2Int GetGridLayout() => _gridLayout;
         public float GetTimeLimit() => _timeLimit;
         public float GetMemorizeTime() => _memorizeTime;
         public float GetMaxMistake() => _maxMistake;

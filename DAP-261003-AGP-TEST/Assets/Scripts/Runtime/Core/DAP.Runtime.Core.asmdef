@@ -1,3 +1,16 @@
 {
-	"name": "DAP.Runtime.Core"
+    "name": "DAP.Runtime.Core",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e8c198b2a63de5a4bac52aba07f0dc2a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
