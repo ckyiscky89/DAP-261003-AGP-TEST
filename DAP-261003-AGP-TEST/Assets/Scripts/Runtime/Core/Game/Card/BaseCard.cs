@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 namespace DAP.Runtime.Core
 {
-    [RequireComponent(typeof(Button))]
-    [RequireComponent(typeof(Image))]
     public abstract class BaseCard : MonoBehaviour
     {
         public int Id { get; protected set; }
