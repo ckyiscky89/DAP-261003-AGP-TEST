@@ -1,20 +1,16 @@
+using DAP.Runtime.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DAP.Runtime.Core
 {
-    using DAP.Runtime.Data;
-    using System.Collections;
-    using System.Collections.Generic;
-    using TreeEditor;
-    using UnityEngine;
-
     public class GameplayManager : MonoBehaviour
     {
         [Header("Dependencies")]
         [SerializeField] private LevelGenerator _levelGenerator;
-        //[SerializeField] private UIManager _uiManager;
 
         private List<BaseCard> _allCards = new List<BaseCard>();
         private BaseCard _firstSelected;
@@ -24,17 +20,56 @@ namespace DAP.Runtime.Core
         private int _matchesFound;
         private int _totalPairs;
 
-        private LevelDataSO _currentLevel;
+        private LevelDataSO _currentLevelData;
+        private DeckDataSO _currentDeckData;
 
-        public void StartGame(LevelDataSO levelData, CardDataSO cardData)
+        private ISaveProvider _saveProvider;
+
+        public Action<int> onScoreChanged;
+        public Action<int> onLevelFinished;
+
+        private int _currentScore;
+
+        private void Awake()
         {
-            //_currentLevel = levelData;
-            //_matchesFound = 0;
-            //_totalPairs = (levelData.Rows * levelData.Columns) / 2;
-            //_isProcessing = false;
+            _saveProvider = new JsonSaveProvider(); // switchable save provider
+            _saveProvider.Load();
+        }
 
-            //// LevelGenerator sekarang kirim callback OnCardClicked ke sini
-            //_levelGenerator.Generate(levelData, cardData, OnCardClicked);
+        private void Start()
+        {
+            InitializeLevelData();
+            InitializeCardData();
+
+            if (_currentLevelData == null || _currentDeckData == null)
+            {
+                Debug.LogError("Data Null - Back to main menu");
+                BackToMainMenu();
+                return;
+            }
+
+            StartGame(_currentLevelData, _currentDeckData);
+        }
+        private void InitializeLevelData()
+        {
+            _currentLevelData = SessionState.selectedLevelData;
+        }
+
+        private void InitializeCardData()
+        {
+            _currentDeckData = SessionState.selectedDeckData;
+        }
+
+        private void BackToMainMenu() => SceneManager.LoadScene(MainConfig.SceneName.SCENE_MAIN_MENU);
+
+        public void StartGame(LevelDataSO levelData, DeckDataSO deckData)
+        {
+            var levelLayout = levelData.GetGridLayout();
+            _matchesFound = 0;
+            _totalPairs = (levelLayout.y * levelLayout.x) / 2;
+            _isProcessing = false;
+
+            _levelGenerator.Generate(levelData, deckData, OnCardClicked);
         }
 
         private void OnCardClicked(BaseCard card)

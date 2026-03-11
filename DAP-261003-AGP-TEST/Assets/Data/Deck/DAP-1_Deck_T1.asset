@@ -9,6 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca1a169a6cf90014e9d81ad913f3a6fb, type: 3}
-  m_Name: DAP-1_Card_T1
+  m_Script: {fileID: 11500000, guid: 16a2df15818809647bc2758c28152451, type: 3}
+  m_Name: DAP-1_Deck_T1
   m_EditorClassIdentifier: 
+  _cardId: D1
+  _cardBack: {fileID: 0}
+  _listCardFaces: []

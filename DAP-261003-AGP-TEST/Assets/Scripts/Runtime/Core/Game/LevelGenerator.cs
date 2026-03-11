@@ -13,7 +13,7 @@ namespace DAP.Runtime.Core
         [SerializeField] private GameObject _cardPrefab;
         [SerializeField] private GridLayoutGroup _gridLayout;
 
-        public void Generate(LevelDataSO levelData, CardDataSO cardData, System.Action<BaseCard> onCardClick)
+        public void Generate(LevelDataSO levelData, DeckDataSO deckData, System.Action<BaseCard> onCardClick)
         {
             ClearGrid();
 
@@ -46,7 +46,7 @@ namespace DAP.Runtime.Core
                 BaseCard card = go.GetComponent<BaseCard>();
 
                 int id = cardIds[idPointer++];
-                card.Initialize(id, cardData.GetListCardFaces()[id], cardData.GetCardBack(), onCardClick);
+                card.Initialize(id, deckData.GetListCardFaces()[id], deckData.GetCardBack(), onCardClick);
             }
         }
 

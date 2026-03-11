@@ -9,11 +9,11 @@ namespace DAP.Runtime.UI
 {
     public class LevelButton : MonoBehaviour
     {
+        [SerializeField] private Button _button;
         [SerializeField] private TMP_Text _levelNameText;
         [SerializeField] private GameObject _lockOverlay;
         [SerializeField] private GameObject[] _stars;
-        [SerializeField] private Button _button;
-
+        
         public void Setup(LevelDataSO data, bool isLocked, int starsEarned, System.Action<LevelDataSO> onClick)
         {
             _levelNameText.text = data.GetLevelName();

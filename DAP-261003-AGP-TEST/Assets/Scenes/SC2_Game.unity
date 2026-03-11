@@ -594,8 +594,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c96bd8c3dec18c4ea3231f4abfc3c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cardPrefab: {fileID: 0}
-  _gridLayout: {fileID: 0}
+  _cardPrefab: {fileID: 5908327559487454907, guid: 8e9d5af6b45774d46ad2748daa8f4ff5,
+    type: 3}
+  _gridLayout: {fileID: 732504692}
 --- !u!4 &1804218358
 Transform:
   m_ObjectHideFlags: 0

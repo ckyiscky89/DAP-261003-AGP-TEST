@@ -1,52 +1,75 @@
+using DAP.Runtime.Core;
 using DAP.Runtime.Data;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace DAP.Runtime.UI
 {
     public class LevelSelectionManager : MonoBehaviour
     {
+        [Header("Data")]
         [SerializeField] private LevelLibraryDataSO _library;
-        [SerializeField] private LevelButton _buttonPrefab;
-        [SerializeField] private Transform _container;
 
-        private void Start()
+        [Header("References")]
+        [SerializeField] private LevelButton _levelButtonPrefab;
+        [SerializeField] private GridLayoutGroup _gridLayoutLevelSelection;
+
+        private ISaveProvider _saveProvider;
+        private bool _isInitialized = false;
+
+        public void Initialize()
         {
+            if (!_isInitialized)
+            {
+                InitializeSaveProvider();
+                _isInitialized = true;
+            }
+
             GenerateButtons();
+        }
+
+        private void InitializeSaveProvider()
+        {
+            _saveProvider = new JsonSaveProvider();
+            _saveProvider.Load();
         }
 
         private void GenerateButtons()
         {
-            //// Bersihkan container dulu
-            //foreach (Transform child in _container) Destroy(child.gameObject);
+            ClearLevelGrid();
 
-            //var levelData = _library.GetLevelDataSO();
+            var curLevel = _library.GetLevelDataSO();
+            for (int i = 0; i < curLevel.Count; i++)
+            {
+                LevelDataSO level = curLevel[i];
 
-            //for (int i = 0; i < levelData.Count; i++)
-            //{
-            //    var curLevelData = levelData[i];
+                bool isLocked = false;
+                if (i > 0)
+                {
+                    int prevStars = _saveProvider.GetStars(i - 1);
+                    isLocked = (prevStars <= 0);
+                }
 
-            //    // LOGIC UNLOCK: Level 1 (index 0) selalu kebuka, 
-            //    // sisanya cek apakah level sebelumnya dapet minimal 1 bintang
-            //    bool isLocked = false;
-            //    if (i > 0)
-            //    {
-            //        int prevLevelStars = SaveSystem.GetStars(i - 1);
-            //        isLocked = prevLevelStars <= 0;
-            //    }
+                int currentStars = _saveProvider.GetStars(i);
 
-            //    int currentStars = SaveSystem.GetStars(i);
-
-            //    var btn = Instantiate(_buttonPrefab, _container);
-            //    btn.Setup(curLevelData, isLocked, currentStars, StartLevel);
-            //}
+                var gridLayout = _gridLayoutLevelSelection.transform;
+                LevelButton btn = Instantiate(_levelButtonPrefab, gridLayout);
+                btn.Setup(level, isLocked, currentStars, OnLevelClicked);
+            }
         }
 
-        private void StartLevel(LevelDataSO data)
+        private void ClearLevelGrid()
         {
-            // Kirim data ke GameManager (bisa lewat Scene transition atau Singleton)
-            //GameManager.Instance.LoadLevel(data);
+            var gridLayout = _gridLayoutLevelSelection.transform;
+            foreach (Transform child in gridLayout)
+                Destroy(child.gameObject);
+        }
+
+        private void OnLevelClicked(LevelDataSO level)
+        {
+            SessionState.selectedLevelData = level;
+            SceneManager.LoadScene(MainConfig.SceneName.SCENE_GAMEPLAY);
         }
     }
 }

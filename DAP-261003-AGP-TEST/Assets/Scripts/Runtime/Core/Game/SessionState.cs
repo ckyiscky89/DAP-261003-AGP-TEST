@@ -1,0 +1,10 @@
+using DAP.Runtime.Data;
+
+namespace DAP.Runtime.Core
+{
+    public static class SessionState
+    {
+        public static LevelDataSO selectedLevelData;
+        public static DeckDataSO selectedDeckData;
+    }
+}

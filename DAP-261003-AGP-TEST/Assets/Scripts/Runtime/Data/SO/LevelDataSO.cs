@@ -16,11 +16,13 @@ namespace DAP.Runtime.Data
         [SerializeField] private float _timeLimit = 30;
         [SerializeField] private float _memorizeTime = 1;
         [SerializeField] private float _maxMistake = 5;
+        [SerializeField] private int _baseScorePerMatch = 100;
 
         public string GetLevelName() => _levelName;
         public Vector2Int GetGridLayout() => _gridLayout;
         public float GetTimeLimit() => _timeLimit;
         public float GetMemorizeTime() => _memorizeTime;
         public float GetMaxMistake() => _maxMistake;
+        public int GetScorePerMatch() => _baseScorePerMatch;
     }
 }
