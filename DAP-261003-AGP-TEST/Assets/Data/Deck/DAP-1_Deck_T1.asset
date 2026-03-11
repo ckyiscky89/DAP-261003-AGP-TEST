@@ -13,5 +13,20 @@ MonoBehaviour:
   m_Name: DAP-1_Deck_T1
   m_EditorClassIdentifier: 
   _cardId: D1
-  _cardBack: {fileID: 0}
-  _listCardFaces: []
+  _cardBack: {fileID: -871560982, guid: 8a1bde0d24fd24d47a3e47800631f728, type: 3}
+  _listCardFaces:
+  - {fileID: -1610080478, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: -799438154, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: 332471808, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: -568443222, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: -2000112748, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: -43305837, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: -387190557, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: -1602257159, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: 1049245179, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: 144989934, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: -521061444, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: 1518813129, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: 1367857481, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: 1914945277, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
+  - {fileID: 2060965387, guid: 0386540575d136d4ea1cac5b622dbd5a, type: 3}
