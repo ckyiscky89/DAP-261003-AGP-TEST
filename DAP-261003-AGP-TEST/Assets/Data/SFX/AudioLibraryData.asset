@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53966504a41768744b35966c5bf89a70, type: 3}
   m_Name: AudioLibraryData
   m_EditorClassIdentifier: 
-  buttonClick: {fileID: 0}
-  cardFlip: {fileID: 0}
-  match: {fileID: 0}
-  mismatch: {fileID: 0}
-  win: {fileID: 0}
-  lose: {fileID: 0}
+  buttonClick: {fileID: 8300000, guid: 188283c60f215c9438ba75f836b14d17, type: 3}
+  cardFlip: {fileID: 8300000, guid: 0c28870064b537740b6a92abce7a3025, type: 3}
+  match: {fileID: 8300000, guid: 09c0a4930402ee645b4260702b1e0a3b, type: 3}
+  mismatch: {fileID: 8300000, guid: ed96e161bb2d0a245a7c0e80776897ab, type: 3}
+  win: {fileID: 8300000, guid: 4114eef13b03e4a4296b87366f13077b, type: 3}
+  lose: {fileID: 8300000, guid: 15d80901ebf093343a0fdba2cb6c837f, type: 3}
