@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DAP.Runtime.Data
 {
-    [CreateAssetMenu(fileName = "LevelLibraryData", menuName = "DAP/Data/Level Library")]
+    [CreateAssetMenu(fileName = "LevelLibraryData", menuName = "DAP/Data/New Level Library")]
     public class LevelLibraryDataSO : ScriptableObject
     {
         [SerializeField] private List<LevelDataSO> _levels;

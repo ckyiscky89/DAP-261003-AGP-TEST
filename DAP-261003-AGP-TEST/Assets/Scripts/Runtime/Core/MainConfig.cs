@@ -15,7 +15,13 @@ namespace DAP.Runtime.Core
 
         public struct GeneralNaming
         {
-            public const string SPACER = "_spacer_", SCORE = "Score", MISSES = "Misses", STARS_EARNED = "Stars Earned";
+            public const string SPACER = "_spacer_";
+        }
+
+        public struct ResultScreen
+        {
+            public const string WIN = "Win", Lose = "Game Over", MISSES = "Misses", STARS_EARNED = "Stars Earned",
+                COMBO = "Combo", MAX_COMBO = "Max Combo", TIME = "Time";
         }
     }
 }

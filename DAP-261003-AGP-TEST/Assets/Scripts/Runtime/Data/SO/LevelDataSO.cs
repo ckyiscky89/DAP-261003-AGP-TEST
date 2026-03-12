@@ -16,7 +16,7 @@ namespace DAP.Runtime.Data
         [SerializeField] private float _timeLimit = 30;
         [SerializeField] private float _memorizeTime = 1;
         [SerializeField] private float _maxMistake = 5;
-        [SerializeField] private int _baseScorePerMatch = 100;
+        [SerializeField] private float _targetTime = 20f;
 
         public string GetLevelId() => _levelId;
         public string GetLevelName() => _levelName;
@@ -24,6 +24,6 @@ namespace DAP.Runtime.Data
         public float GetTimeLimit() => _timeLimit;
         public float GetMemorizeTime() => _memorizeTime;
         public float GetMaxMistake() => _maxMistake;
-        public int GetScorePerMatch() => _baseScorePerMatch;
+        public float GetTargetTime() => _targetTime;
     }
 }

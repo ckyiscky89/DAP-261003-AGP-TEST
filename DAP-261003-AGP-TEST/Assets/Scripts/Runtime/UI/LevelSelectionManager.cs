@@ -70,6 +70,7 @@ namespace DAP.Runtime.UI
         private void OnLevelClicked(LevelDataSO level, int index)
         {
             SessionState.selectedLevelData = level;
+            SessionState.selectedLevelLibraryData = _library;
             SessionState.selectedLevelIndex = index;
             SceneManager.LoadScene(MainConfig.SceneName.SCENE_GAMEPLAY);
         }
