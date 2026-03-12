@@ -16,5 +16,6 @@ MonoBehaviour:
   _levelName: Level 2
   _gridLayout: {x: 3, y: 2}
   _timeLimit: 20
-  _memorizeTime: 3
+  _memorizeTime: 2
   _maxMistake: 5
+  _targetTime: 8
