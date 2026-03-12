@@ -6,19 +6,19 @@ namespace DAP.Runtime.Core
 {
     public class JsonSaveProvider : ISaveProvider
     {
-        private string SavePath => Path.Combine(Application.persistentDataPath, MainConfig.SaveProvider.SAVE_JSON_NAME);
+        private string _savePath => Path.Combine(Application.persistentDataPath, MainConfig.SaveProvider.SAVE_JSON_NAME);
 
         private GameData _cachedData;
 
         [System.Serializable]
         public class GameData
         {
-            public List<int> LevelStars = new();
+            public List<int> levelStars = new();
         }
 
         public void Load()
         {
-            if (!File.Exists(SavePath))
+            if (!File.Exists(_savePath))
             {
                 _cachedData = new GameData();
                 return;
@@ -26,12 +26,12 @@ namespace DAP.Runtime.Core
 
             try
             {
-                string json = File.ReadAllText(SavePath);
+                string json = File.ReadAllText(_savePath);
                 _cachedData = JsonUtility.FromJson<GameData>(json);
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"Failed to load save data: {e.Message}");
+                Debug.LogError($"[JsonSaveProvider] Failed to load save data: {e.Message}");
                 _cachedData = new GameData();
             }
         }
@@ -40,20 +40,20 @@ namespace DAP.Runtime.Core
         {
             if (_cachedData == null) Load();
 
-            if (levelIndex < 0 || levelIndex >= _cachedData.LevelStars.Count) return 0;
-            return _cachedData.LevelStars[levelIndex];
+            if (levelIndex < 0 || levelIndex >= _cachedData.levelStars.Count) return 0;
+            return _cachedData.levelStars[levelIndex];
         }
 
         public void SaveStars(int levelIndex, int stars)
         {
             if (_cachedData == null) Load();
 
-            while (_cachedData.LevelStars.Count <= levelIndex)
-                _cachedData.LevelStars.Add(0);
+            while (_cachedData.levelStars.Count <= levelIndex)
+                _cachedData.levelStars.Add(0);
 
-            if (stars > _cachedData.LevelStars[levelIndex])
+            if (stars > _cachedData.levelStars[levelIndex])
             {
-                _cachedData.LevelStars[levelIndex] = stars;
+                _cachedData.levelStars[levelIndex] = stars;
                 SaveToFile();
             }
         }
@@ -63,11 +63,11 @@ namespace DAP.Runtime.Core
             try
             {
                 string json = JsonUtility.ToJson(_cachedData);
-                File.WriteAllText(SavePath, json);
+                File.WriteAllText(_savePath, json);
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"Failed to save to disk: {e.Message}");
+                Debug.LogError($"[JsonSaveProvider] Failed to save to disk: {e.Message}");
             }
         }
     }

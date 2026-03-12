@@ -48,9 +48,6 @@ namespace DAP.Runtime.UI
             _containerLevelSelection.SetActive(true);
 
             _levelSelectionManager.Initialize();
-
-            // TODO add SFX
-
         }
 
         private void OnDestroy()

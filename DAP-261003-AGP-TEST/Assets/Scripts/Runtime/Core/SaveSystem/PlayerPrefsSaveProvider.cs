@@ -1,4 +1,3 @@
-using DAP.Runtime.Core;
 using UnityEngine;
 
 namespace DAP.Runtime.Core
@@ -12,7 +11,7 @@ namespace DAP.Runtime.Core
         }
 
         public int GetStars(int levelIndex) => PlayerPrefs.GetInt($"Level_{levelIndex}_Stars", 0);
-        
+
         public void Load()
         {
             //

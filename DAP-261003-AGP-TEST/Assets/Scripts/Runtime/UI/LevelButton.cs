@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using DAP.Runtime.Data;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using DAP.Runtime.Data;
 
 namespace DAP.Runtime.UI
 {
@@ -13,7 +11,7 @@ namespace DAP.Runtime.UI
         [SerializeField] private TMP_Text _levelNameText;
         [SerializeField] private GameObject _lockOverlay;
         [SerializeField] private GameObject[] _stars;
-        
+
         public void Setup(LevelDataSO levelData, int levelIndex, bool isLocked, int starsEarned, System.Action<LevelDataSO, int> onClick)
         {
             _levelNameText.text = levelData.GetLevelName();

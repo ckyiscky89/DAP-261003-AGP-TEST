@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +7,8 @@ namespace DAP.Runtime.Core
     public abstract class BaseCard : MonoBehaviour
     {
         public int cardId { get; protected set; }
-        public bool IsMatched { get; protected set; }
-        public bool IsRevealed { get; protected set; }
+        public bool isMatched { get; protected set; }
+        public bool isRevealed { get; protected set; }
 
         [Header("UI References")]
         [SerializeField] protected Image _imgCard;
@@ -36,7 +35,7 @@ namespace DAP.Runtime.Core
 
         private void HandleClick()
         {
-            if (IsMatched || IsRevealed) 
+            if (isMatched || isRevealed) 
                 return;
 
             _onClicked?.Invoke(this);

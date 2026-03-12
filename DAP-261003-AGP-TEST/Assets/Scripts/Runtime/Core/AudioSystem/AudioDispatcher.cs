@@ -5,7 +5,7 @@ namespace DAP.Runtime.Core
 {
     public static class AudioDispatcher
     {
-        public static Action<SFXType> OnPlaySFX;
-        public static void PlaySFX(SFXType type) => OnPlaySFX?.Invoke(type);
+        public static Action<SFXType> onPlaySFX;
+        public static void PlaySFX(SFXType type) => onPlaySFX?.Invoke(type);
     }
 }

@@ -40,7 +40,7 @@ namespace DAP.Runtime.Core
 
             if (_currentLevelData == null || _currentDeckData == null)
             {
-                Debug.LogWarning("Data Null - Restart ... - Back to main menu");
+                Debug.LogWarning("[GameplayManager] Data Null - Restart ... - Back to main menu");
                 BackToMainMenu();
                 return;
             }
@@ -99,12 +99,15 @@ namespace DAP.Runtime.Core
 
         private IEnumerator MemorizePhaseRoutine()
         {
-            foreach (var card in _activeCards) 
+            foreach (var card in _activeCards)
+            {
                 card.Reveal();
+                yield return new WaitForSeconds(.1f);
+            }
 
             yield return new WaitForSeconds(_currentLevelData.GetMemorizeTime());
 
-            foreach (var card in _activeCards) 
+            foreach (var card in _activeCards)
                 card.Hide();
 
             yield return new WaitForSeconds(0.3f);
@@ -115,7 +118,7 @@ namespace DAP.Runtime.Core
 
         private void OnCardClicked(BaseCard card)
         {
-            if (_isProcessing || card.IsRevealed || card.IsMatched) return;
+            if (_isProcessing || card.isRevealed || card.isMatched) return;
 
             card.Reveal();
 

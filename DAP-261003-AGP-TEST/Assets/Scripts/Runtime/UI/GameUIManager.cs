@@ -26,7 +26,11 @@ namespace DAP.Runtime.UI
 
         private void OnEnable()
         {
-            if (!IsGameplayManagerValid()) return;
+            if (!IsGameplayManagerValid())
+            {
+                Debug.LogWarning("[GameUIManager] Please assign GameplayManager!");
+                return;
+            }
 
             SetGameplayManager();
             SetResultButton();
@@ -90,19 +94,10 @@ namespace DAP.Runtime.UI
             _gameplayManager.onGameLose -= HandleLose;
         }
 
-        private bool IsGameplayManagerValid()
-        {
-            if (_gameplayManager == null)
-            {
-                Debug.LogWarning("Please assign GameplayManager!");
-                return false;
-            }
-
-            return true;
-        }
+        private bool IsGameplayManagerValid() => (_gameplayManager != null);
 
         private void UpdateTimerVisual(float timeInSeconds) => _txtTimer.text = TimeSpan.FromSeconds(timeInSeconds).ToString("mm\\:ss");
-        private void UpdateComboVisual(int combo) => _txtCombo.text = (combo > 1) ? $"{MainConfig.ResultScreen.COMBO} x{combo}!" : "";
+        private void UpdateComboVisual(int combo) => _txtCombo.text = (combo > 1) ? $"{MainConfig.ResultScreen.COMBO} x{combo}" : "";
         private void UpdateMissesVisual(int misses) => _txtMisses.text = $"{MainConfig.ResultScreen.MISSES}: {misses}";
 
         private void HandleWin(int stars, float finalTime, int maxCombo)
@@ -123,9 +118,7 @@ namespace DAP.Runtime.UI
             _containerResult.SetActive(true);
             //if (_panelAnimator != null) _panelAnimator.SetTrigger("Show");
 
-            _txtResultTitle.text = isWin ? MainConfig.ResultScreen.WIN : "GAME OVER";
-            //_txtResultTitle.color = isWin ? Color.green : Color.red;
-
+            _txtResultTitle.text = isWin ? MainConfig.ResultScreen.WIN : MainConfig.ResultScreen.LOSE;
             ResetResultStars();
 
             bool hasNextLevel = false;
@@ -151,9 +144,9 @@ namespace DAP.Runtime.UI
 
         private void ResetResultButton()
         {
-            _btnRetry.onClick.RemoveAllListeners();
-            _btnMenu.onClick.RemoveAllListeners();
-            _btnNext.onClick.RemoveAllListeners();
+            RemoveAllButtonListener(_btnRetry);
+            RemoveAllButtonListener(_btnMenu);
+            RemoveAllButtonListener(_btnNext);
         }
 
         private void OnRetryClicked() => SceneManager.LoadScene(MainConfig.SceneName.SCENE_GAMEPLAY);
