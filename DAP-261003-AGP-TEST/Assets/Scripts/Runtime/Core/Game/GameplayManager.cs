@@ -12,44 +12,49 @@ namespace DAP.Runtime.Core
         [Header("Dependencies")]
         [SerializeField] private LevelGenerator _levelGenerator;
 
-        private List<BaseCard> _allCards = new List<BaseCard>();
+        public Action<int> onScoreUpdated;
+        public Action<int> onMissesUpdated;
+        public Action<int> onGameWin;
+        public Action onGameLose;
+
         private BaseCard _firstSelected;
         private BaseCard _secondSelected;
+
+        private List<BaseCard> _activeCards = new List<BaseCard>();
 
         private bool _isProcessing;
         private int _matchesFound;
         private int _totalPairs;
+        private int _totalMisses;
+        private int _currentScore;
 
         private LevelDataSO _currentLevelData;
         private DeckDataSO _currentDeckData;
 
         private ISaveProvider _saveProvider;
 
-        public Action<int> onScoreChanged;
-        public Action<int> onLevelFinished;
-
-        private int _currentScore;
-
-        private void Awake()
-        {
-            _saveProvider = new JsonSaveProvider(); // switchable save provider
-            _saveProvider.Load();
-        }
-
         private void Start()
         {
+            InitializeSaveProvider();
             InitializeLevelData();
             InitializeCardData();
 
             if (_currentLevelData == null || _currentDeckData == null)
             {
-                Debug.LogError("Data Null - Back to main menu");
+                Debug.LogWarning("Data Null - Restart ... - Back to main menu");
                 BackToMainMenu();
                 return;
             }
 
             StartGame(_currentLevelData, _currentDeckData);
         }
+
+        private void InitializeSaveProvider()
+        {
+            _saveProvider = new JsonSaveProvider(); // switchable save provider
+            _saveProvider.Load();
+        }
+
         private void InitializeLevelData()
         {
             _currentLevelData = SessionState.selectedLevelData;
@@ -65,73 +70,105 @@ namespace DAP.Runtime.Core
         public void StartGame(LevelDataSO levelData, DeckDataSO deckData)
         {
             var levelLayout = levelData.GetGridLayout();
-            _matchesFound = 0;
             _totalPairs = (levelLayout.y * levelLayout.x) / 2;
-            _isProcessing = false;
+            _matchesFound = 0;
+            _totalMisses = 0;
+            _currentScore = 0;
+            _isProcessing = true;
 
-            _levelGenerator.Generate(levelData, deckData, OnCardClicked);
+            _activeCards = _levelGenerator.Generate(levelData, deckData, OnCardClicked);
+
+            StartCoroutine(MemorizePhaseRoutine());
+        }
+
+        private IEnumerator MemorizePhaseRoutine()
+        {
+            foreach (var card in _activeCards) 
+                card.Reveal();
+
+            yield return new WaitForSeconds(_currentLevelData.GetMemorizeTime());
+
+            foreach (var card in _activeCards) 
+                card.Hide();
+
+            yield return new WaitForSeconds(0.3f);
+
+            _isProcessing = false;
         }
 
         private void OnCardClicked(BaseCard card)
         {
-            // 1. Guard Clauses (Penting buat Tech Test!)
-            //if (_isProcessing || //.IsMatched || card == _firstSelected) return;
+            if (_isProcessing || card.IsRevealed || card.IsMatched) return;
 
-            //card.Reveal();
+            card.Reveal();
 
-            //if (_firstSelected == null)
-            //{
-            //    _firstSelected = card;
-            //}
-            //else
-            //{
-            //    _secondSelected = card;
-            //    StartCoroutine(CheckMatchRoutine());
-            //}
+            if (_firstSelected == null)
+            {
+                _firstSelected = card;
+            }
+            else
+            {
+                _secondSelected = card;
+                StartCoroutine(CheckMatchRoutine());
+            }
         }
 
         private IEnumerator CheckMatchRoutine()
         {
-            //_isProcessing = true; // LOCK INPUT
+            _isProcessing = true;
 
-            //// Beri waktu animasi Reveal selesai
             yield return new WaitForSeconds(0.5f);
 
-            //if (_firstSelected.Id == _secondSelected.Id)
-            //{
-            //    // MATCH!
-            //    _firstSelected.OnMatched();
-            //    _secondSelected.OnMatched();
-            //    _matchesFound++;
+            bool isMatched = _firstSelected.cardId == _secondSelected.cardId;
+            if (isMatched)
+            {
+                _firstSelected.OnMatched();
+                _secondSelected.OnMatched();
+                _matchesFound++;
 
-            //    _uiManager.AddScore(_currentLevel.BaseScorePerMatch);
+                _currentScore += _currentLevelData.GetScorePerMatch();
+                onScoreUpdated?.Invoke(_currentScore);
 
-            //    if (_matchesFound >= _totalPairs)
-            //    {
-            //        OnLevelComplete();
-            //    }
-            //}
-            //else
-            //{
-            //    // MISMATCH!
-            //    yield return new WaitForSeconds(0.5f); // Biar player hapalin dulu
-            //    _firstSelected.OnMismatched();
-            //    _secondSelected.OnMismatched();
+                if (_matchesFound >= _totalPairs)
+                {
+                    HandleWin();
+                }
+            }
+            else
+            {
+                _totalMisses++;
+                onMissesUpdated?.Invoke(_totalMisses);
 
-            //    _uiManager.RegisterMiss(); // kalkulasi bintang nanti
-            //}
+                _firstSelected.OnMismatched();
+                _secondSelected.OnMismatched();
 
-            //// Reset selection
-            //_firstSelected = null;
-            //_secondSelected = null;
-            //_isProcessing = false; // UNLOCK INPUT
+                if (_totalMisses >= _currentLevelData.GetMaxMistake())
+                {
+                    HandleLose();
+                }
+            }
+
+            _firstSelected = null;
+            _secondSelected = null;
+            _isProcessing = false;
         }
 
-        private void OnLevelComplete()
+        private void HandleWin()
         {
-            //Debug.Log("Level Clear!");
-            //_uiManager.ShowWinPanel();
-            //// Panggil SaveSystem di sini
+            _isProcessing = true;
+
+            float missRatio = (float)_totalMisses / _currentLevelData.GetMaxMistake();
+            int stars = (missRatio <= 0.2f) ? 3 : (missRatio <= 0.6f) ? 2 : 1;
+
+            _saveProvider.SaveStars(SessionState.selectedLevelIndex, stars);
+
+            onGameWin?.Invoke(stars);
+        }
+
+        private void HandleLose()
+        {
+            _isProcessing = true;
+            onGameLose?.Invoke();
         }
     }
 }

@@ -6,5 +6,6 @@ namespace DAP.Runtime.Core
     {
         public static LevelDataSO selectedLevelData;
         public static DeckDataSO selectedDeckData;
+        public static int selectedLevelIndex;
     }
 }

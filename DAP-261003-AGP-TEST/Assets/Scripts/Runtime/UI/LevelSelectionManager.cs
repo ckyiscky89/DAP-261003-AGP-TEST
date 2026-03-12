@@ -43,6 +43,7 @@ namespace DAP.Runtime.UI
             for (int i = 0; i < curLevel.Count; i++)
             {
                 LevelDataSO level = curLevel[i];
+                int levelIndex = i;
 
                 bool isLocked = false;
                 if (i > 0)
@@ -55,7 +56,7 @@ namespace DAP.Runtime.UI
 
                 var gridLayout = _gridLayoutLevelSelection.transform;
                 LevelButton btn = Instantiate(_levelButtonPrefab, gridLayout);
-                btn.Setup(level, isLocked, currentStars, OnLevelClicked);
+                btn.Setup(level, levelIndex, isLocked, currentStars, OnLevelClicked);
             }
         }
 
@@ -66,9 +67,10 @@ namespace DAP.Runtime.UI
                 Destroy(child.gameObject);
         }
 
-        private void OnLevelClicked(LevelDataSO level)
+        private void OnLevelClicked(LevelDataSO level, int index)
         {
             SessionState.selectedLevelData = level;
+            SessionState.selectedLevelIndex = index;
             SceneManager.LoadScene(MainConfig.SceneName.SCENE_GAMEPLAY);
         }
     }

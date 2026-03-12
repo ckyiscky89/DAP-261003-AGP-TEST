@@ -7,7 +7,9 @@ namespace DAP.Runtime.Core
 {
     public abstract class BaseCard : MonoBehaviour
     {
-        public int Id { get; protected set; }
+        public int cardId { get; protected set; }
+        public bool IsMatched { get; protected set; }
+        public bool IsRevealed { get; protected set; }
 
         [Header("UI References")]
         [SerializeField] protected Image _imgCard;
@@ -20,14 +22,24 @@ namespace DAP.Runtime.Core
 
         public virtual void Initialize(int id, Sprite face, Sprite back, Action<BaseCard> callback)
         {
-            Id = id;
+            cardId = id;
 
             _faceSprite = face; 
             _backSprite = back; 
             _onClicked = callback;
 
             _imgCard.sprite = back;
-            _btnCard.onClick.AddListener(() => _onClicked?.Invoke(this));
+
+            _btnCard.onClick.RemoveAllListeners();
+            _btnCard.onClick.AddListener(HandleClick);
+        }
+
+        private void HandleClick()
+        {
+            if (IsMatched || IsRevealed) 
+                return;
+
+            _onClicked?.Invoke(this);
         }
 
         public abstract void Reveal();

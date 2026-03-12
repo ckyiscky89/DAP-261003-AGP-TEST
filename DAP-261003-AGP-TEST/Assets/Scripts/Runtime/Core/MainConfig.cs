@@ -12,5 +12,10 @@ namespace DAP.Runtime.Core
         {
             public const string SAVE_JSON_NAME = "save.json";
         }
+
+        public struct GeneralNaming
+        {
+            public const string SPACER = "_spacer_", SCORE = "Score", MISSES = "Misses", STARS_EARNED = "Stars Earned";
+        }
     }
 }

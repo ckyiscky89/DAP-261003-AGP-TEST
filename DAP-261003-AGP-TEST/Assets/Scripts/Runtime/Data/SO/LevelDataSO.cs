@@ -18,6 +18,7 @@ namespace DAP.Runtime.Data
         [SerializeField] private float _maxMistake = 5;
         [SerializeField] private int _baseScorePerMatch = 100;
 
+        public string GetLevelId() => _levelId;
         public string GetLevelName() => _levelName;
         public Vector2Int GetGridLayout() => _gridLayout;
         public float GetTimeLimit() => _timeLimit;
